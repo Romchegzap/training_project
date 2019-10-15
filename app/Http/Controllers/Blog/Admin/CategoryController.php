@@ -9,7 +9,10 @@ use Illuminate\Support\Str;
 use App\Repositories\BlogCategoryRepository;
 use phpDocumentor\Reflection\Types\Parent_;
 
-
+/**
+ * Class CategoryController
+ * @package App\Http\Controllers\Blog\Admin
+ */
 class CategoryController extends BaseController
 {
     private $blogCategoryRepository;
@@ -93,15 +96,15 @@ class CategoryController extends BaseController
      * @param BlogCategoryRepository $categoryRepository
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, BlogCategoryRepository $categoryRepository)
+    public function edit($id)
     {
 
 
-        $item = $categoryRepository->getEdit($id);
+        $item = $this->blogCategoryRepository->getEdit($id);
         if (empty($item)) {
             abort(404);
         }
-        $categoryList = $categoryRepository->getForComboBox();
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
 
 
       //  $asd = compact('item', 'categoryList');
