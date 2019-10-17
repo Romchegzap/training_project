@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Requests\BlogPostUpdateRequest;
+use App\Models\BlogPost;
 use App\Repositories\BlogCategoryRepository;
 use Illuminate\Http\Request;
 use App\Repositories\BlogPostRepository;
@@ -57,7 +58,10 @@ class PostController extends BaseController
      */
     public function create()
     {
-        dd(__METHOD__);
+        $item = new BlogPost();
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
+
+        return view('blog.admin.posts.edit', compact('item', 'categoryList'));
     }
 
     /**
@@ -122,12 +126,13 @@ class PostController extends BaseController
         }
             $data = $request->all();
 
-            if(empty($data['slug'])) {
-                $data['slug'] = \Str::slug($data['title']);
-            }
-            if(empty($item->published_at) && $data['is_published']) {
-                $data['published_at'] = Carbon::now();
-        }
+        //В обсервере
+//            if(empty($data['slug'])) {
+//                $data['slug'] = \Str::slug($data['title']);
+//            }
+//            if(empty($item->published_at) && $data['is_published']) {
+//                $data['published_at'] = Carbon::now();
+//        }
             $result = $item->update($data);
 
             if($result){
